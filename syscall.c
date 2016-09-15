@@ -125,21 +125,17 @@ static int (*syscalls[])(void) = {
 [SYS_getcount] sys_getcount,
 };
 
+int count = 0;
+
 void
 syscall(void)
 {
   int num;
-  int count = 0;
     
   num = proc->tf->eax;
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
-    if(num == SYS_getcount) {
-        cprintf("count %d\n", count);
-    }
-    else {
     count++;
     proc->tf->eax = syscalls[num]();
-    }
   } else {
     cprintf("%d %s: unknown sys call %d\n",
             proc->pid, proc->name, num);

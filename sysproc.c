@@ -93,6 +93,5 @@ sys_uptime(void)
 int
 sys_getcount(void)
 {
-     
-    return 99;
+    return count;
 }
