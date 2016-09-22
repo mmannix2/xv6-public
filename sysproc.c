@@ -97,8 +97,8 @@ sys_getcount(void)
 }
 
 int
-sys_shutdown(void)
+sys_getpinfo(void)
 {
-    cprintf("Shutting down...\n");
-    return 99;
+    procdump();
+    return proc->priority;
 }

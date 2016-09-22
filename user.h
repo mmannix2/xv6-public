@@ -25,7 +25,7 @@ int sleep(int);
 int uptime(void);
 /*** Added this for getcount ***/
 int getcount(void);
-int shutdown(void);
+int getpinfo(void);
 
 // ulib.c
 int stat(char*, struct stat*);
