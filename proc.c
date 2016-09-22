@@ -46,6 +46,7 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
+  p->priority = 0; //Set every process to highest priority to start
 
   // Allocate kernel stack.
   if((p->kstack = kalloc()) == 0){

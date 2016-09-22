@@ -95,3 +95,10 @@ sys_getcount(void)
 {
     return count;
 }
+
+int
+sys_shutdown(void)
+{
+    cprintf("Shutting down...\n");
+    return 99;
+}
