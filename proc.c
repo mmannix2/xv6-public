@@ -291,7 +291,8 @@ scheduler(void)
     struct proc *p;
     //int i;
     int priority;
-    int PRIORITY_LEVELS = 2;
+    
+    // Run forever and alternate priority between 0 & 1
     for(priority = 0; ; priority = ((priority+1) % PRIORITY_LEVELS) ){
         // Enable interrupts on this processor.
         sti();
@@ -299,13 +300,14 @@ scheduler(void)
         // Loop over process table looking for process to run.
         acquire(&ptable.lock);
         for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-            cprintf("Checking for priority %d.\n", priority);
+            //cprintf("Checking for priority %d.\n", priority);
             if(p->state != RUNNABLE) {
-                cprintf("Process not runnable. Skipping.\n");
+                //cprintf("Process not runnable. Skipping.\n");
                 continue;
             }
             
             if(p->priority == priority) {
+                //cprintf("Priority matches. Running Process.\n");
                 // Switch to chosen process.  It is the process's job
                 // to release ptable.lock and then reacquire it
                 // before jumping back to us.

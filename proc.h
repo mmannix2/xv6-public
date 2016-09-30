@@ -1,3 +1,6 @@
+// Added to implement the MLFQ Scheduler
+#define PRIORITY_LEVELS 2
+
 // Added to allow getcount to work
 extern int count;
 
