@@ -172,7 +172,10 @@ UPROGS=\
 	_usertests\
 	_wc\
 	_zombie\
-        _lab2test\
+        _printpinfo\
+        _shortproc\
+        _longproc\
+        _infproc\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)

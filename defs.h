@@ -115,6 +115,9 @@ void            userinit(void);
 int             wait(void);
 void            wakeup(void*);
 void            yield(void);
+//Added to implement MLFQ
+void            resetPriorities(void);
+void            procdump1(struct proc*);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

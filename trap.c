@@ -104,12 +104,23 @@ trap(struct trapframe *tf)
   // If interrupts were on while locks held, would need to check nlock.
   if(proc && proc->state == RUNNING && tf->trapno == T_IRQ0+IRQ_TIMER) {
     //The process has used its whole time-slice so decrease priority
-    proc->priority = ((proc->priority+1) % PRIORITY_LEVELS);
+    if(proc->priority < PRIORITY_LEVELS-1) {
+        proc->priority++; 
+        //DEBUG
+        //procdump1(proc);
+    }
     //DEBUG
-    cprintf("Demoting priority level to %d.\n", proc->priority);
+    //cprintf("Demoting priority level to %d.\n", proc->priority);
     yield();
   }
 
+  // Resets all processes to highest priority on  
+  if(ticks % 500 == 0) {
+    //DEBUG
+    //cprintf("ticks: %d. Raising all procs to top priority.\n", ticks);
+    resetPriorities();
+  }
+  
   // Check if the process has been killed since we yielded
   if(proc && proc->killed && (tf->cs&3) == DPL_USER)
     exit();

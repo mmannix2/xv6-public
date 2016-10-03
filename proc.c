@@ -501,3 +501,52 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+// Added to implement MLFQ
+// Set proc->priority for every proc to top priority.
+void
+resetPriorities(void)
+{
+  struct proc* p;
+  acquire(&ptable.lock);  //DOC: yieldlock
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    p->priority = 0;
+    //DEBUG
+    //cprintf("Priority set to top priority!\n");
+  }
+  //DEBUG
+  //procdump();
+  release(&ptable.lock);
+}
+
+// Print a details of a single process.  For debugging.
+// Runs when user types ^P on console.
+// No lock to avoid wedging a stuck machine further.
+void
+procdump1(struct proc* p)
+{
+  static char *states[] = {
+  [UNUSED]    "unused",
+  [EMBRYO]    "embryo",
+  [SLEEPING]  "sleep ",
+  [RUNNABLE]  "runble",
+  [RUNNING]   "run   ",
+  [ZOMBIE]    "zombie"
+  };
+  int i;
+  char *state;
+  uint pc[10];
+
+  if(p->state >= 0 && p->state < NELEM(states) && states[p->state])
+    state = states[p->state];
+  else
+    state = "???";
+  cprintf("%d %s %s", p->pid, state, p->name);
+  cprintf(" Priority: %d", p->priority);//Print priority
+  if(p->state == SLEEPING){
+    getcallerpcs((uint*)p->context->ebp+2, pc);
+    for(i=0; i<10 && pc[i] != 0; i++)
+      cprintf(" %p", pc[i]);
+    }
+    cprintf("\n");
+}
