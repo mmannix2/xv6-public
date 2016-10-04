@@ -26,6 +26,7 @@ int uptime(void);
 /*** Added this for getcount ***/
 int getcount(void);
 int getpinfo(void);
+int uppriority(void);
 
 // ulib.c
 int stat(char*, struct stat*);

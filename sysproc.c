@@ -102,3 +102,10 @@ sys_getpinfo(void)
     procdump();
     return proc->priority;
 }
+
+int
+sys_uppriority(void)
+{
+    proc->priority = 0;
+    return 0;
+}
