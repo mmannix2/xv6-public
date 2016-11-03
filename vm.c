@@ -96,7 +96,8 @@ mappages(pde_t *pgdir, void *va, uint size, uint pa, int perm)
 //
 // setupkvm() and exec() set up every page table like this:
 //
-//   0..KERNBASE: user memory (text+data+stack+heap), mapped to
+//   0..0x00001000 NULL space //Added to do Lab 4
+//   0x00001000..KERNBASE: user memory (text+data+stack+heap), mapped to
 //                phys memory allocated by the kernel
 //   KERNBASE..KERNBASE+EXTMEM: mapped to 0..EXTMEM (for I/O space)
 //   KERNBASE+EXTMEM..data: mapped to EXTMEM..V2P(data)
@@ -188,7 +189,7 @@ inituvm(pde_t *pgdir, char *init, uint sz)
   if(sz >= PGSIZE)
     panic("inituvm: more than a page");
   mem = kalloc();
-  memset(mem, 0, PGSIZE);
+  memset(mem,0, PGSIZE);
   mappages(pgdir, 0, PGSIZE, V2P(mem), PTE_W|PTE_U);
   memmove(mem, init, sz);
 }
@@ -323,7 +324,7 @@ copyuvm(pde_t *pgdir, uint sz)
 
   if((d = setupkvm()) == 0)
     return 0;
-  for(i = 0; i < sz; i += PGSIZE){
+  for(i = PGSIZE; i < sz; i += PGSIZE){
     if((pte = walkpgdir(pgdir, (void *) i, 0)) == 0)
       panic("copyuvm: pte should exist");
     if(!(*pte & PTE_P))

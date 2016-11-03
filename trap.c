@@ -87,10 +87,16 @@ trap(struct trapframe *tf)
       panic("trap");
     }
     // In user space, assume process misbehaved.
-    cprintf("pid %d %s: trap %d err %d on cpu %d "
-            "eip 0x%x addr 0x%x--kill proc\n",
-            proc->pid, proc->name, tf->trapno, tf->err, cpunum(), tf->eip,
-            rcr2());
+    //Null pointer
+    if(tf->trapno == T_PGFLT) {
+        cprintf("A page fault has occerred.\n");
+    }
+    else {
+        cprintf("pid %d %s: trap %d err %d on cpu %d "
+                "eip 0x%x addr 0x%x--kill proc\n",
+                proc->pid, proc->name, tf->trapno, tf->err, cpunum(), tf->eip,
+                rcr2());
+    }
     proc->killed = 1;
   }
 

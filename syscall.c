@@ -126,7 +126,7 @@ static int (*syscalls[])(void) = {
 [SYS_close]   sys_close,
 [SYS_getcount] sys_getcount,
 [SYS_getpinfo] sys_getpinfo,
-[SYS_uppriority] sys_uppriority
+[SYS_uppriority] sys_uppriority,
 };
 
 int count = 0;
