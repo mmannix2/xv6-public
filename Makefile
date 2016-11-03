@@ -177,6 +177,7 @@ UPROGS=\
         _longproc\
         _infproc\
         _prioritytest\
+        _lab4\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
